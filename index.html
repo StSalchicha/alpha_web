@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>  <meta charset="utf-8" />  <meta name="viewport" content="width=device-width, initial-scale=1" />  <title>MouseFlow — Synthwave</title>  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>  <div class="navbar">    <div class="container row">      <a class="brand" href="#" onclick="go('menu')">        <img src="assets/logo_nuevo_MINI-removebg-preview.png" alt="Logo" />        <span>MouseFlow</span>      </a>      <div class="actions">        <span id="nav-user" class="muted">
+</span>        <a class="btn ghost" href="#" onclick="go('menu')">Menú</a>        <a class="btn ghost" href="#" onclick="go('trofeos')">Logros</a>        <a class="btn ghost" href="#" onclick="go('perfil')">Perfil</a>        <a id="btn-login" class="btn primary" href="#" onclick="go('login')">Iniciar sesión</a>        <button id="btn-logout" class="btn ghost hide" type="button" onclick="logout()">Cerrar sesión</button>      </div>    </div>  </div>  <main class="container">    <!-- LOGIN -->    <section id="view-login" class="view active">      <div class="card auth">        <div class="pad">          <h2>Iniciar sesión</h2>          <p class="muted">Ingresa tu correo y contraseña. Si no tienes cuenta, regístrate.</p>          <form onsubmit="event.preventDefault(); login();">            <label>Email</label>            <input id="login-email" type="email" required placeholder="usuario@correo.com" />            <label>Contraseña</label>            <input id="login-password" type="password" required placeholder="••••••••" />            <div style="display:flex;gap:8px;margin-top:12px">              <button class="btn primary" type="submit">Entrar</button>            </div>            <div id="login-msg" class="form-msg">
+</div>          </form>          <hr style="margin:18px 0; opacity:.35" />          <h3>Crear cuenta</h3>          <form onsubmit="event.preventDefault(); registerUser();">            <label>Nombre (opcional)</label>            <input id="reg-name" type="text" placeholder="Tu nombre" />            <label>Email</label>            <input id="reg-email" type="email" required placeholder="usuario@correo.com" />            <label>Contraseña</label>            <input id="reg-password" type="password" required placeholder="Mín. 8 caracteres" />            <div style="display:flex;gap:8px;margin-top:12px">              <button class="btn" type="submit">Crear cuenta</button>            </div>            <div id="register-msg" class="form-msg">
+</div>          </form>        </div>      </div>    </section>    <!-- MENÚ -->    <section id="view-menu" class="view">      <div class="hero">        <h2>Menú</h2>        <p class="muted">Elige una opción</p>      </div>      <div class="menu-grid">        <article class="card menu-card">          <div class="pad">            <h3>Lecciones</h3>            <p class="muted">Explora el contenido disponible.</p>            <button class="btn primary" onclick="go('lecciones'); loadLessons();">Ir a Lecciones</button>          </div>        </article>        <article class="card menu-card">          <div class="pad">            <h3>Logros</h3>            <p class="muted">Revisa los trofeos obtenidos.</p>            <button class="btn" onclick="go('trofeos'); loadTrophies();">Ver Logros</button>          </div>        </article>        <article class="card menu-card">          <div class="pad">            <h3>Perfil</h3>            <p class="muted">Consulta los datos de tu perfil.</p>            <button class="btn" onclick="go('perfil'); showProfile();">Ver Perfil</button>          </div>        </article>      </div>    </section>    <!-- LECCIONES -->    <section id="view-lecciones" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('menu')">← Menú</button>        <h2>Lecciones Activas</h2>      </div>      <div id="grid-lecciones" class="grid">
+</div>    </section>    <!-- LECCIÓN -->    <section id="view-leccion" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('lecciones')">← Lecciones</button>        <h2 id="lesson-title">Lección</h2>      </div>      <div class="card">        <div id="lesson-content" class="pad">
+</div>        <div class="footer">          <button id="btn-ir-quiz" class="btn primary" onclick="">Ir al Cuestionario</button>        </div>      </div>    </section>    <!-- QUIZ -->    <section id="view-quiz" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('leccion')">← Lección</button>        <h2 id="quiz-title">Cuestionario</h2>      </div>      <div class="card">        <div id="quiz-wrap" class="pad">
+</div>        <div class="footer">          <span>Resultado: <span id="quiz-badge" class="badge">— / —</span>
+</span>          <button class="btn primary" type="button" onclick="evaluateQuiz()">Evaluar respuestas</button>        </div>      </div>    </section>    <!-- CALIFICACIÓN -->    <section id="view-calificacion" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('quiz')">← Quiz</button>        <h2>Calificación</h2>      </div>      <div class="card">        <div class="pad">          <p id="calificacion-summary" class="lead">Aún no has evaluado este quiz.</p>          <p id="calificacion-porcentaje" class="muted">
+</p>        </div>        <div class="footer" style="display:flex;gap:12px;flex-wrap:wrap">          <button class="btn" type="button" onclick="loadQuiz(currentLessonId)">Reiniciar quiz</button>          <button class="btn ghost" type="button" onclick="go('leccion')">Volver a la lección</button>        </div>      </div>    </section>    <!-- TROFEOS -->    <section id="view-trofeos" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('menu')">← Menú</button>        <h2>Logros</h2>      </div>      <div class="card">        <div id="trofeos-list" class="pad">          <p class="muted">Inicia sesión para ver tus trofeos.</p>        </div>      </div>    </section>    <!-- PERFIL -->    <section id="view-perfil" class="view">      <div class="header-row">        <button class="btn ghost" onclick="go('menu')">← Menú</button>        <h2>Perfil</h2>      </div>      <div class="card">        <div class="pad">          <dl class="profile-list">            <dt>Nombre</dt>
+<dd id="perfil-name">—</dd>            <dt>Correo</dt>
+<dd id="perfil-email">—</dd>            <dt>ID de usuario</dt>
+<dd id="perfil-id">—</dd>          </dl>        </div>      </div>    </section>  </main>    <script>
+    const API = 'api/index.php';
+    let currentUser = null;
+    let currentLessonId = null;
+    let currentQuizId = null;
+    let answeredQuestions = new Set();
+    let lastQuizScore = { correct: 0, total: 0 };
+    let answersRevealed = false;
+
+    function go(view) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const map = {
+        login: 'view-login',
+        menu: 'view-menu',
+        lecciones: 'view-lecciones',
+        leccion: 'view-leccion',
+        quiz: 'view-quiz',
+        calificacion: 'view-calificacion',
+        trofeos: 'view-trofeos',
+        perfil: 'view-perfil'
+      };
+      const id = map[view];
+      if (id) document.getElementById(id).classList.add('active');
+    }
+
+    function setCurrentUser(u) {
+      currentUser = u;
+      localStorage.setItem('currentUser', JSON.stringify(u));
+      paintNavbar();
+    }
+
+    function getStoredUser() {
+      try {
+        return JSON.parse(localStorage.getItem('currentUser') || 'null');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      currentUser = null;
+      paintNavbar();
+      go('login');
+    }
+
+    function paintNavbar() {
+      const span = document.getElementById('nav-user');
+      const inBtn = document.getElementById('btn-login');
+      const outBtn = document.getElementById('btn-logout');
+      if (currentUser) {
+        span.textContent = `👤 ${currentUser.name || currentUser.email}`;
+        inBtn.classList.add('hide');
+        outBtn.classList.remove('hide');
+      } else {
+        span.textContent = '';
+        inBtn.classList.remove('hide');
+        outBtn.classList.add('hide');
+      }
+    }
+
+    async function login() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const msg = document.getElementById('login-msg');
+      msg.className = 'form-msg';
+      msg.textContent = 'Ingresando...';
+      try {
+        const r = await fetch(`${API}?action=login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const j = await r.json();
+        if (!j.ok) {
+          msg.className = 'form-msg err';
+          msg.textContent = j.error || 'Error';
+          return;
+        }
+        setCurrentUser(j.data.user);
+        msg.className = 'form-msg ok';
+        msg.textContent = '¡Bienvenido!';
+        go('menu');
+      } catch (e) {
+        msg.className = 'form-msg err';
+        msg.textContent = 'No se pudo conectar.';
+      }
+    }
+
+    async function registerUser() {
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const msg = document.getElementById('register-msg');
+      msg.className = 'form-msg';
+      msg.textContent = 'Creando cuenta...';
+      try {
+        const r = await fetch(`${API}?action=register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const j = await r.json();
+        if (!j.ok) {
+          msg.className = 'form-msg err';
+          msg.textContent = j.error || 'Error';
+          return;
+        }
+        msg.className = 'form-msg ok';
+        msg.textContent = 'Cuenta creada. Ahora inicia sesión.';
+      } catch (e) {
+        msg.className = 'form-msg err';
+        msg.textContent = 'No se pudo conectar.';
+      }
+    }
+
+    async function loadLessons() {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      const grid = document.getElementById('grid-lecciones');
+      grid.innerHTML = '<div class="muted">Cargando...</div>';
+      try {
+        const r = await fetch(`${API}?action=lessons`);
+        const j = await r.json();
+        if (!j.ok) {
+          grid.innerHTML = '<div class="muted">No hay lecciones</div>';
+          return;
+        }
+        grid.innerHTML = j.data
+          .map(
+            l => `
+          <article class="card">
+            <div class="pad">
+              <div class="muted">Unidad ${l.id}</div>
+              <h3 style="margin:.2rem 0 1rem">${l.title}</h3>
+              <button class="btn primary" onclick="loadLesson(${l.id})">Abrir</button>
+            </div>
+          </article>
+        `
+          )
+          .join('');
+      } catch (e) {
+        grid.innerHTML = '<div class="muted">Error cargando lecciones</div>';
+      }
+    }
+
+    async function loadLesson(id) {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      currentLessonId = id;
+      go('leccion');
+      document.getElementById('lesson-title').textContent = 'Lección ' + id;
+      document.getElementById('lesson-content').innerHTML = '<p class="muted">Cargando...</p>';
+      const btnQuiz = document.getElementById('btn-ir-quiz');
+      btnQuiz.onclick = () => loadQuiz(currentLessonId);
+      try {
+        const r = await fetch(`${API}?action=lesson&id=${id}`);
+        const j = await r.json();
+        if (!j.ok) {
+          document.getElementById('lesson-content').innerHTML = '<p class="muted">Sin contenido</p>';
+          return;
+        }
+        document.getElementById('lesson-title').textContent = `Lección ${j.data.id}: ${j.data.title}`;
+        document.getElementById('lesson-content').innerHTML = j.data.content_html;
+      } catch (e) {
+        document.getElementById('lesson-content').innerHTML = '<p class="muted">Error cargando</p>';
+      }
+    }
+
+    async function loadQuiz(lessonId) {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      go('quiz');
+      answeredQuestions = new Set();
+      currentQuizId = null;
+      lastQuizScore = { correct: 0, total: 0 };
+      answersRevealed = false;
+
+      document.getElementById('calificacion-summary').textContent = 'Aún no has evaluado este quiz.';
+      document.getElementById('calificacion-porcentaje').textContent = '';
+
+      const wrap = document.getElementById('quiz-wrap');
+      wrap.innerHTML = '<p class="muted">Cargando...</p>';
+      document.getElementById('quiz-badge').textContent = '— / —';
+
+      try {
+        const r = await fetch(`${API}?action=quizByLesson&lessonId=${lessonId}`);
+        const j = await r.json();
+        if (!j.ok) {
+          wrap.innerHTML = '<p class="muted">No hay cuestionario</p>';
+          return;
+        }
+        document.getElementById('quiz-title').textContent = j.data.title;
+        currentQuizId = j.data.id;
+        const qs = j.data.questions || [];
+        if (!qs.length) {
+          wrap.innerHTML = '<p class="muted">No hay preguntas disponibles.</p>';
+          document.getElementById('quiz-badge').textContent = '— / 0';
+          return;
+        }
+        wrap.innerHTML = qs
+          .map(
+            (q, qi) => `
+          <div class="q">
+            <div class="pad"><strong>${qi + 1}) ${q.text}</strong></div>
+            <div class="ops">
+              ${q.answers
+                .map(
+                  (a, ai) => `
+                <div class="op">
+                  <input id="q${qi}a${ai}" data-q-index="${qi}" data-correct="${a.is_correct ? 1 : 0}" type="radio" name="q${qi}" onchange="handleAnswerSelect(${qi}, this)">
+                  <label for="q${qi}a${ai}">${a.text}</label>
+                </div>
+              `
+                )
+                .join('')}
+            </div>
+          </div>
+        `
+          )
+          .join('');
+        document.getElementById('quiz-badge').textContent = `— / ${qs.length}`;
+      } catch (e) {
+        wrap.innerHTML = '<p class="muted">Error cargando</p>';
+      }
+    }
+
+    function handleAnswerSelect(questionIndex, input) {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      if (answeredQuestions.has(questionIndex)) {
+        return;
+      }
+      answeredQuestions.add(questionIndex);
+      const radios = document.querySelectorAll(`#quiz-wrap input[data-q-index="${questionIndex}"]`);
+      radios.forEach(radio => {
+        if (radio !== input) {
+          radio.disabled = true;
+        }
+      });
+      triggerSelectionAnimation(input);
+    }
+
+    function getQuizScore() {
+      const total = document.querySelectorAll('#quiz-wrap .q').length;
+      const correct = document.querySelectorAll('#quiz-wrap input[type="radio"][data-correct="1"]:checked').length;
+      return { correct, total };
+    }
+
+    function triggerSelectionAnimation(input) {
+      const label = document.querySelector(`label[for="${input.id}"]`);
+      if (!label) return;
+      label.classList.remove('choice-pulse');
+      void label.offsetWidth; // force reflow to restart animation
+      label.classList.add('choice-pulse');
+    }
+
+    function revealQuizFeedback() {
+      if (answersRevealed) return;
+      answersRevealed = true;
+      document.querySelectorAll('#quiz-wrap input[type="radio"]').forEach(input => {
+        const label = document.querySelector(`label[for="${input.id}"]`);
+        if (label) {
+          label.classList.remove('correct', 'wrong');
+        }
+        input.classList.remove('correct', 'wrong');
+        if (input.dataset.correct === '1') {
+          input.classList.add('correct');
+          if (label) label.classList.add('correct');
+        } else if (input.checked) {
+          input.classList.add('wrong');
+          if (label) label.classList.add('wrong');
+        }
+      });
+    }
+
+    async function evaluateQuiz() {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      if (!currentLessonId) {
+        go('lecciones');
+        return;
+      }
+
+      const { correct, total } = getQuizScore();
+      lastQuizScore = { correct, total };
+
+      if (total > 0 && currentQuizId) {
+        try {
+          await fetch(`${API}?action=saveResult`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: currentUser.id,
+              quizId: currentQuizId,
+              correct,
+              total,
+              duration: 0
+            })
+          });
+        } catch (e) {}
+      }
+
+      document.getElementById('quiz-badge').textContent = total > 0 ? `${correct} / ${total}` : '— / —';
+
+      let summary = 'No hay preguntas en este cuestionario.';
+      let pctText = '';
+      if (total > 0) {
+        const pct = Math.round((correct / total) * 100);
+        summary = `Obtuviste ${correct} de ${total} respuestas correctas.`;
+        let flavor = 'Te conviene estudiar la lección antes de reintentar.';
+        if (pct === 100) {
+          flavor = '¡Excelente, lograste un puntaje perfecto!';
+        } else if (pct >= 70) {
+          flavor = '¡Buen trabajo, estás por buen camino!';
+        } else if (pct >= 40) {
+          flavor = 'Puedes mejorar: repasa la lección e inténtalo de nuevo.';
+        }
+        pctText = `Calificación: ${pct}% — ${flavor}`;
+      }
+
+      document.getElementById('calificacion-summary').textContent = summary;
+      document.getElementById('calificacion-porcentaje').textContent = pctText;
+
+      revealQuizFeedback();
+      go('calificacion');
+    }
+
+    async function loadTrophies() {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      const box = document.getElementById('trofeos-list');
+      box.innerHTML = '<p class="muted">Cargando...</p>';
+      try {
+        const r = await fetch(`${API}?action=trophies&userId=${currentUser.id}`);
+        const j = await r.json();
+        if (!j.ok || !j.data.length) {
+          box.innerHTML = '<p class="muted">Aún no tienes trofeos.</p>';
+          return;
+        }
+        box.innerHTML =
+          '<ul>' +
+          j.data
+            .map(
+              t =>
+                `<li>🏆 <strong>${t.title}</strong> — ${t.description || ''} <span class="muted">(${new Date(t.awarded_at).toLocaleString()})</span></li>`
+            )
+            .join('') +
+          '</ul>';
+      } catch (e) {
+        box.innerHTML = '<p class="muted">Error al cargar trofeos.</p>';
+      }
+    }
+
+    function showProfile() {
+      if (!currentUser) {
+        go('login');
+        return;
+      }
+      document.getElementById('perfil-name').textContent = currentUser.name || '—';
+      document.getElementById('perfil-email').textContent = currentUser.email || '—';
+      document.getElementById('perfil-id').textContent = currentUser.id || '—';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const u = getStoredUser();
+      if (u) {
+        setCurrentUser(u);
+        go('menu');
+      } else {
+        go('login');
+      }
+      document.querySelector('[onclick="go(\'trofeos\')"]').addEventListener('click', loadTrophies);
+      document.querySelector('[onclick="go(\'perfil\')"]').addEventListener('click', showProfile);
+    });
+  </script>
+</body>
+</html>
