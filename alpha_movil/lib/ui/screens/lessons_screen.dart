@@ -108,7 +108,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Debes completar la lección anterior',
+                                  'Completa la lección anterior para desbloquear',
                                   style: GoogleFonts.robotoMono(),
                                 ),
                                 backgroundColor: AppColors.danger,
