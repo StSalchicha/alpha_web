@@ -50,47 +50,146 @@ $DEBUG = isset($_GET['debug']) && $_GET['debug'] == '1';
 $defaultLessons = [
   [
     'title' => 'Sintaxis Básica',
-    'content_html' => '<h3>Variables y Tipos</h3><p>Repasa cómo declarar variables, tipos primitivos y reglas de nombrado.</p><h3>Operadores</h3><p>Incluye operadores aritméticos, comparación y lógicos con ejemplos cortos.</p>'
+    'content_html' => '<h2>Lección 1: Sintaxis Básica</h2>
+<p>Antes de poder construir algoritmos complejos, es fundamental entender cómo escribir correctamente en pseudocódigo. En esta lección aprenderás las reglas básicas de sintaxis, muy similares a las de lenguajes como C, que nos ayudarán a organizar nuestras ideas de forma clara y ordenada.</p>
+
+<h3>Conceptos Fundamentales</h3>
+<p>Conocerás cómo declarar variables indicando su tipo (como <code>entero</code>, <code>cadena</code>, etc.), cómo asignarles valores, y cómo usar los comentarios para explicar lo que hace el código. También aprenderás que los nombres de variables distinguen entre mayúsculas y minúsculas, por lo que usar <code>edad</code> no es lo mismo que usar <code>Edad</code>.</p>
+
+<h3>Ejercicios Prácticos</h3>
+<p>Además, practicarás identificando estructuras correctas a través de ejercicios como:</p>
+<ul>
+<li><strong>Ejercicio 1</strong>: que refuerza las reglas clave de escritura.</li>
+<li><strong>Ejercicio 2</strong>: donde deberás completar fragmentos de código reales.</li>
+<li><strong>Ejercicio 3</strong>: en el que seleccionarás la imagen que mejor representa la declaración y asignación de variables.</li>
+</ul>
+
+<p>Esta lección te dará las bases que necesitas para comenzar a escribir tus propios algoritmos de forma correcta y comprensible.</p>'
   ],
   [
     'title' => 'Estructuras de Control',
-    'content_html' => '<h3>Condicionales</h3><p>Uso de <code>if</code>, <code>else if</code> y <code>switch</code> con ejemplos.</p><h3>Bucles</h3><p>Presenta <code>for</code>, <code>while</code>, <code>do...while</code> y cuándo utilizar cada uno.</p><h3>Buenas prácticas</h3><ul><li>Evita bucles infinitos.</li><li>Usa <code>break</code>/<code>continue</code> con moderación.</li></ul>'
+    'content_html' => '<h2>Lección 2: Estructura de Programa - Main, Return, Condicionales y Bucles</h2>
+<p>En esta lección nos adentraremos en la estructura esencial que da vida a cualquier algoritmo en pseudocódigo, comenzando con el punto de entrada del programa: la función <code>inicio()</code> (equivalente a <code>main</code> en lenguajes como C). Aquí aprenderás cómo organizar correctamente tu código dentro de bloques delimitados por llaves <code>{}</code> y cómo usar la instrucción <code>retornar</code> para indicar el final de una ejecución o devolver un valor.</p>
+
+<h3>Estructuras Condicionales</h3>
+<p>Una vez entendido el flujo principal del programa, trabajaremos con las estructuras condicionales, que nos permiten tomar decisiones en base a condiciones lógicas. Aprenderás a usar <code>si</code>, <code>entonces</code> y <code>sino</code> para que el programa responda de manera distinta según los valores de entrada. Esto se ejemplifica en el <strong>Ejercicio 1</strong>, donde deberás completar un algoritmo que determina si una persona es mayor de edad.</p>
+
+<h3>Bucles</h3>
+<p>Finalmente, conocerás los bucles, estructuras que repiten acciones automáticamente mientras se cumpla una condición. Son esenciales para automatizar tareas repetitivas. En el <strong>Ejercicio 2</strong>, pondrás a prueba tu comprensión seleccionando la imagen que represente correctamente un bucle que muestra los números del 1 al 5.</p>
+
+<p>Con esta lección, desarrollarás la capacidad de construir algoritmos con un flujo claro, capaces de tomar decisiones y repetir acciones eficientemente, sentando las bases para resolver problemas más complejos en pseudocódigo.</p>'
   ],
   [
     'title' => 'Funciones Avanzadas',
-    'content_html' => '<h3>Funciones</h3><p>Parámetros, retorno y sobrecarga.</p><h3>Recursividad</h3><p>Estrategias para dividir problemas y considerar casos base.</p><h3>Manejo de archivos</h3><p>Lectura y escritura con ejemplos breves.</p>'
+    'content_html' => '<h2>Lección 3: Funciones, Manejo de Archivos y Recursividad</h2>
+<p>En esta lección exploraremos tres conceptos fundamentales que llevan el pseudocódigo a un nivel más avanzado y práctico: funciones, archivos y recursividad.</p>
+
+<h3>Funciones</h3>
+<p>Comenzamos con las funciones, una herramienta clave para dividir el código en partes reutilizables. Aprenderás cómo se definen con un nombre, parámetros de entrada y un bloque de instrucciones. Las funciones ayudan a organizar mejor los programas, reducir repeticiones y facilitar la resolución de problemas complejos. En el <strong>Ejercicio 1</strong> (cuestionario) reforzarás este conocimiento reconociendo sus características principales.</p>
+
+<h3>Manejo de Archivos</h3>
+<p>Luego, abordaremos el manejo de archivos, lo que permite a tus algoritmos guardar o leer información externa, como textos, listas o resultados. Esta habilidad es útil cuando necesitas que los datos persistan más allá de la ejecución del programa. En el <strong>Ejercicio 1</strong> (completar código), practicarás cómo abrir un archivo, escribir contenido en él y cerrarlo correctamente.</p>
+
+<h3>Recursividad</h3>
+<p>Finalmente, conocerás la recursividad, una técnica poderosa donde una función se llama a sí misma para resolver un problema en partes más pequeñas. Este concepto, aunque avanzado, es muy útil en situaciones como el cálculo de factoriales, recorridos en árboles o resolución de acertijos lógicos. En el <strong>Ejercicio 2</strong> (cuestionario) analizarás el ejemplo de una función recursiva y cómo se asegura de no caer en un ciclo infinito.</p>
+
+<p>Con esta lección, serás capaz de construir programas más organizados, eficientes y capaces de trabajar con datos dinámicos, acercándote al pensamiento algorítmico de un desarrollador real.</p>'
   ]
 ];
 $defaultQuizzes = [
+  [
+    'lesson_title' => 'Sintaxis Básica',
+    'quiz_title'   => 'Quiz Unidad 1',
+    'questions' => [
+      [
+        'text' => 'Ejercicio 1: Cuestionario\n\nEn pseudocódigo orientado a C, una instrucción termina en punto y coma (;). Las variables deben declararse con su tipo antes de usarse. Los comentarios permiten explicar el código y se escriben con doble diagonal (//). Los nombres de variables distinguen entre mayúsculas y minúsculas, por lo que edad y Edad son diferentes.',
+        'answers' => [
+          ['text' => 'entero edad;', 'is_correct' => true],
+          ['text' => 'Edad = 5;', 'is_correct' => false],
+          ['text' => '// Esto es un comentario', 'is_correct' => false],
+          ['text' => 'edad entero;', 'is_correct' => false],
+        ]
+      ],
+      [
+        'text' => 'Ejercicio 2: Completar código\n\nInstrucción: Completa el siguiente pseudocódigo con las partes faltantes.\n\n// Declaracion de variables\n_________ nombre;\n_________ edad;\n//Asignacion de valores\nnombre = "Carlos";\nedad = ____;\n//Mostrar resultados\nmostrar(_____);',
+        'answers' => [
+          ['text' => 'entero, cadena, mostrar(nombre), 20', 'is_correct' => false],
+          ['text' => 'cadena, entero, 20, nombre', 'is_correct' => true],
+          ['text' => 'mostrar, cadena, nombre, 20', 'is_correct' => false],
+          ['text' => 'entero, edad, 20, edad', 'is_correct' => false],
+        ]
+      ],
+      [
+        'text' => 'Ejercicio 3: Seleccionar la imagen correcta\n\nInstrucción: Selecciona la imagen que representa correctamente una declaración de variables y asignación de valor.',
+        'answers' => [
+          ['text' => 'cadena nombre;\nnombre = Carlos;', 'is_correct' => false],
+          ['text' => 'nombre: cadena;\nnombre = "Carlos"', 'is_correct' => false],
+          ['text' => 'cadena nombre;\nnombre = "Carlos";', 'is_correct' => true],
+        ]
+      ],
+    ]
+  ],
   [
     'lesson_title' => 'Estructuras de Control',
     'quiz_title'   => 'Quiz Unidad 2',
     'questions' => [
       [
-        'text' => '&#191;Qué instrucción se usa para evaluar múltiples casos en una sola expresión?',
+        'text' => 'Ejercicio 1: main\n\nEn pseudocódigo estilo C, el punto de inicio de un programa es la función principal, usualmente llamada main. Se escribe como inicio() { ... } y puede devolver un valor con retornar. Aunque en pseudocódigo no siempre se usa un tipo de retorno explícito, entender return es esencial para la lógica del programa.',
         'answers' => [
-          ['text' => 'switch',  'is_correct' => true],
-          ['text' => 'goto',    'is_correct' => false],
-          ['text' => 'foreach', 'is_correct' => false],
-          ['text' => 'assert',  'is_correct' => false],
+          ['text' => 'funcion principal()', 'is_correct' => false],
+          ['text' => 'inicio()', 'is_correct' => true],
+          ['text' => 'comienzo()', 'is_correct' => false],
+          ['text' => 'start()', 'is_correct' => false],
         ]
       ],
       [
-        'text' => '&#191;Qué condición mantiene la ejecución de un bucle while?',
+        'text' => 'Ejercicio 2: Completar código\n\nInstrucción: Completa el siguiente fragmento de pseudocódigo que evalúa si una persona es mayor de edad.\n\nentero edad;\nedad = 17;\n\nsi (edad____18) entonces {\nmostrar("Eres mayor de edad"):\n}sino{\nmostrar("Eres menor de edad");\n}',
         'answers' => [
-          ['text' => 'Que la condición sea verdadera', 'is_correct' => true],
-          ['text' => 'Que la condición sea falsa',     'is_correct' => false],
-          ['text' => 'Que la variable sea negativa',   'is_correct' => false],
-          ['text' => 'Depende del número de iteraciones', 'is_correct' => false],
+          ['text' => '>=', 'is_correct' => true],
+          ['text' => '==', 'is_correct' => false],
+          ['text' => '<', 'is_correct' => false],
+          ['text' => '>', 'is_correct' => false],
         ]
       ],
       [
-        'text' => '&#191;Qué palabra clave termina inmediatamente un bucle?',
+        'text' => 'Ejercicio 3: Seleccionar la opción correcta\n\nInstrucción: ¿Cuál imagen representa correctamente un bucle que muestra los números del 1 al 5?',
         'answers' => [
-          ['text' => 'break',    'is_correct' => true],
-          ['text' => 'continue', 'is_correct' => false],
-          ['text' => 'stop',     'is_correct' => false],
-          ['text' => 'halt',     'is_correct' => false],
+          ['text' => 'para (i = 1; i <= 5; i = i + 1) {\nmostrar(i);\n}', 'is_correct' => true],
+          ['text' => 'por i desde 5 hasta 1 paso -1{\nmostrar(i);\n}', 'is_correct' => false],
+          ['text' => 'mientras (i <= 5) {\nmostrar(i);\ni++;\n}', 'is_correct' => false],
+        ]
+      ],
+    ]
+  ],
+  [
+    'lesson_title' => 'Funciones Avanzadas',
+    'quiz_title'   => 'Quiz Unidad 3',
+    'questions' => [
+      [
+        'text' => 'Ejercicio 1: Cuestionario\n\nLas funciones permiten reutilizar código. Una función puede recibir parámetros y devolver un valor. Se definen con un nombre, parámetros entre paréntesis y un bloque de instrucciones.',
+        'answers' => [
+          ['text' => 'inicio() { a + b; }', 'is_correct' => false],
+          ['text' => 'funcion resta(a, b) retornar a - b;', 'is_correct' => false],
+          ['text' => 'funcion mostrar() { mostrar("Hola"); }', 'is_correct' => true],
+          ['text' => 'funcion suma(a + b)', 'is_correct' => false],
+        ]
+      ],
+      [
+        'text' => 'Ejercicio 2: Completar código\n\nInstrucción: Completa el pseudocódigo que abre un archivo y escribe un mensaje.\n\narchivo f;\nf = abrir("salida.txt" , " "____");\nescribir(f, "Hola mundo");\ncerrar(f);',
+        'answers' => [
+          ['text' => 'lectura', 'is_correct' => false],
+          ['text' => 'escritura', 'is_correct' => false],
+          ['text' => 'w', 'is_correct' => true],
+          ['text' => 'leer', 'is_correct' => false],
+        ]
+      ],
+      [
+        'text' => 'Ejercicio 3: Cuestionario\n\nUna función recursiva es aquella que se llama a sí misma. Se usa para resolver problemas que pueden dividirse en subproblemas similares. Para evitar llamadas infinitas, se necesita una condición de parada. Un ejemplo clásico es el cálculo del factorial:\n\nfuncion factorial(entero n) {\nsi (n==0) retornar 1;\nretornar n * factorial(n - 1);\n}',
+        'answers' => [
+          ['text' => 'Contiene un bucle dentro.', 'is_correct' => false],
+          ['text' => 'Se llama a sí misma', 'is_correct' => true],
+          ['text' => 'Solo se ejecuta una vez', 'is_correct' => false],
+          ['text' => 'No necesita retornar valores', 'is_correct' => false],
         ]
       ],
     ]
@@ -111,12 +210,11 @@ function seed_default_lessons(PDO $pdo) {
     $seedSelectLesson->execute([':title' => $lesson['title']]);
     $current = $seedSelectLesson->fetch(PDO::FETCH_ASSOC);
     if ($current) {
-      if (trim((string)$current['content_html']) === '') {
-        $seedUpdateLesson->execute([
-          ':html' => $lesson['content_html'],
-          ':id' => $current['id']
-        ]);
-      }
+      // Siempre actualizar el contenido HTML con el contenido completo
+      $seedUpdateLesson->execute([
+        ':html' => $lesson['content_html'],
+        ':id' => $current['id']
+      ]);
     } else {
       $seedInsertLesson->execute([
         ':title' => $lesson['title'],
@@ -128,29 +226,62 @@ function seed_default_lessons(PDO $pdo) {
 function seed_default_quizzes(PDO $pdo) {
   global $defaultQuizzes, $seedFindLessonId, $seedFindQuizByLesson, $seedInsertQuiz, $seedInsertQuestion, $seedInsertAnswer;
   foreach ($defaultQuizzes as $quizDef) {
-    $seedFindLessonId->execute([':title' => $quizDef['lesson_title']]);
-    $lesson = $seedFindLessonId->fetch(PDO::FETCH_ASSOC);
-    if (!$lesson || empty($lesson['id'])) continue;
-
-    $seedFindQuizByLesson->execute([':lesson_id' => $lesson['id']]);
-    $existing = $seedFindQuizByLesson->fetch(PDO::FETCH_ASSOC);
-    if ($existing) continue;
-
-    $seedInsertQuiz->execute([':lesson_id' => $lesson['id'], ':title' => $quizDef['quiz_title']]);
-    $quizId = $seedInsertQuiz->fetchColumn();
-    if (!$quizId) continue;
-
-    foreach ($quizDef['questions'] as $qDef) {
-      $seedInsertQuestion->execute([':quiz_id' => $quizId, ':text' => $qDef['text']]);
-      $questionId = $seedInsertQuestion->fetchColumn();
-      if (!$questionId) continue;
-      foreach ($qDef['answers'] as $ans) {
-        $seedInsertAnswer->execute([
-          ':question_id' => $questionId,
-          ':text' => $ans['text'],
-          ':is_correct' => $ans['is_correct'] ? 1 : 0
-        ]);
+    try {
+      $seedFindLessonId->execute([':title' => $quizDef['lesson_title']]);
+      $lesson = $seedFindLessonId->fetch(PDO::FETCH_ASSOC);
+      if (!$lesson || empty($lesson['id'])) {
+        error_log("Seed: Lección '{$quizDef['lesson_title']}' no encontrada");
+        continue;
       }
+
+      $seedFindQuizByLesson->execute([':lesson_id' => $lesson['id']]);
+      $existing = $seedFindQuizByLesson->fetch(PDO::FETCH_ASSOC);
+      
+      $quizId = null;
+      if ($existing) {
+        $quizId = $existing['id'];
+        // Eliminar preguntas y respuestas existentes para reinsertar
+        $pdo->prepare('DELETE FROM answers WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = :qid)')->execute([':qid' => $quizId]);
+        $pdo->prepare('DELETE FROM questions WHERE quiz_id = :qid')->execute([':qid' => $quizId]);
+      } else {
+        // Crear nuevo quiz
+        $seedInsertQuiz->execute([':lesson_id' => $lesson['id'], ':title' => $quizDef['quiz_title']]);
+        $quizId = $seedInsertQuiz->fetchColumn();
+        if (!$quizId) {
+          error_log("Seed: Error al crear quiz para lección {$lesson['id']}");
+          continue;
+        }
+      }
+
+      // Insertar preguntas y respuestas
+      $questionsInserted = 0;
+      foreach ($quizDef['questions'] as $qDef) {
+        $seedInsertQuestion->execute([':quiz_id' => $quizId, ':text' => $qDef['text']]);
+        $questionId = $seedInsertQuestion->fetchColumn();
+        if (!$questionId) {
+          error_log("Seed: Error al insertar pregunta en quiz $quizId");
+          continue;
+        }
+        $answersInserted = 0;
+        foreach ($qDef['answers'] as $ans) {
+          try {
+            $seedInsertAnswer->execute([
+              ':question_id' => $questionId,
+              ':text' => $ans['text'],
+              ':is_correct' => $ans['is_correct'] ? 1 : 0
+            ]);
+            $answersInserted++;
+          } catch (Exception $e) {
+            error_log("Seed: Error al insertar respuesta: " . $e->getMessage());
+          }
+        }
+        if ($answersInserted > 0) {
+          $questionsInserted++;
+        }
+      }
+      error_log("Seed: Quiz '{$quizDef['quiz_title']}' creado/actualizado con $questionsInserted preguntas");
+    } catch (Exception $e) {
+      error_log("Seed: Error procesando quiz '{$quizDef['quiz_title']}': " . $e->getMessage());
     }
   }
 }
@@ -243,6 +374,16 @@ try {
     case 'ping': {
       $row = $pdo->query('SELECT 1 AS ok')->fetch(PDO::FETCH_ASSOC);
       out(['ok'=>true,'db'=>((int)($row['ok'] ?? 0) === 1)]);
+    }
+
+    // ---------- Debug: Listar todos los quizzes ----------
+    case 'debugQuizzes': {
+      $quizzes = $pdo->query('SELECT q.id, q.lesson_id, q.title, l.title as lesson_title, 
+                              (SELECT COUNT(*) FROM questions WHERE quiz_id = q.id) as question_count
+                              FROM quizzes q 
+                              LEFT JOIN lessons l ON l.id = q.lesson_id 
+                              ORDER BY q.id')->fetchAll(PDO::FETCH_ASSOC);
+      out(['ok'=>true,'data'=>$quizzes]);
     }
 
     // ---------- Register (JSON) ----------
@@ -381,15 +522,21 @@ try {
       $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
       if (!$quiz) out(['ok'=>false,'error'=>'No hay cuestionario para esta lección'],404);
 
-      $qs = $pdo->prepare('SELECT id, text FROM questions WHERE quiz_id = :q ORDER BY id ASC');
+      $qs = $pdo->prepare('SELECT id, quiz_id, text FROM questions WHERE quiz_id = :q ORDER BY id ASC');
       $qs->execute([':q'=>$quiz['id']]);
       $questions = $qs->fetchAll(PDO::FETCH_ASSOC);
 
-      $qa = $pdo->prepare('SELECT id, text, is_correct FROM answers WHERE question_id = :qid ORDER BY id ASC');
+      $qa = $pdo->prepare('SELECT id, question_id, text, is_correct FROM answers WHERE question_id = :qid ORDER BY id ASC');
       foreach ($questions as &$q) {
         $qa->execute([':qid'=>$q['id']]);
         $ans = $qa->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($ans as &$a) { $a['is_correct'] = (bool)$a['is_correct']; }
+        foreach ($ans as &$a) { 
+          $a['is_correct'] = (bool)$a['is_correct'];
+          // Asegurar que question_id esté presente
+          if (!isset($a['question_id'])) {
+            $a['question_id'] = $q['id'];
+          }
+        }
         $q['answers'] = $ans;
       }
 
@@ -478,7 +625,7 @@ try {
     }
 
     default:
-      out(['ok'=>false,'error'=>'Acción no válida','hint'=>'ping | register | login | lessons | lesson | quizByLesson | saveResult | trophies | profile | updateProfile'],400);
+      out(['ok'=>false,'error'=>'Acción no válida','hint'=>'ping | register | login | lessons | lesson | quizByLesson | saveResult | trophies | profile | updateProfile | debugQuizzes'],400);
   }
 
 } catch (Throwable $e) {
