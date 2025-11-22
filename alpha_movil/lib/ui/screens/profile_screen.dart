@@ -13,7 +13,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    final userData = authProvider.userData;
+    // Usar profileCache (Map) para acceso O(1) a los datos del perfil
+    final profileCache = authProvider.profileCache;
     final trophies = authProvider.trophies;
 
     return Scaffold(
@@ -63,7 +64,8 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    userData['name'] ?? 'Usuario',
+                    // Leer desde profileCache (Map) - acceso O(1)
+                    profileCache['name'] ?? 'Usuario',
                     style: GoogleFonts.robotoMono(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -72,12 +74,24 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    userData['email'] ?? '',
+                    // Leer desde profileCache (Map) - acceso O(1)
+                    profileCache['email'] ?? '',
                     style: GoogleFonts.robotoMono(
                       fontSize: 14,
                       color: AppColors.textMuted,
                     ),
                   ),
+                  // Mostrar conteo de trofeos desde el cache (si está disponible)
+                  if (profileCache['trophies_count'] != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'Trofeos: ${profileCache['trophies_count']}',
+                      style: GoogleFonts.robotoMono(
+                        fontSize: 12,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

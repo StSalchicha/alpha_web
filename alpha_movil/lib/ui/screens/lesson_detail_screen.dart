@@ -164,36 +164,44 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                     width: double.infinity,
                   ),
                   const SizedBox(height: 16),
-                  if (contentProvider.lessonsList.canMoveNext())
-                    NeonButton(
-                      text: 'SIGUIENTE LECCIÓN',
-                      onPressed: () {
-                        if (contentProvider.lessonsList.moveNext()) {
-                          final nextLesson = contentProvider.lessonsList.current?.data;
-                          if (nextLesson != null) {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (_) => LessonDetailScreen(lessonId: nextLesson.id),
-                              ),
-                            );
-                          }
-                        }
-                      },
-                      color: AppColors.secondary,
-                      width: double.infinity,
-                    )
-                  else
-                    GlassCard(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Completa esta lección para desbloquear la siguiente',
-                        style: GoogleFonts.robotoMono(
-                          color: AppColors.textMuted,
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                  // Usar getNextLesson() de ContentProvider (usa LinkedList)
+                  Builder(
+                    builder: (context) {
+                      final nextLessonNode = contentProvider.getNextLesson(widget.lessonId);
+                      final canMoveNext = nextLessonNode != null && lesson?.isCompleted == true;
+                      
+                      if (canMoveNext) {
+                        return NeonButton(
+                          text: 'SIGUIENTE LECCIÓN',
+                          onPressed: () {
+                            final nextLesson = contentProvider.getNextLessonData(widget.lessonId);
+                            if (nextLesson != null) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => LessonDetailScreen(lessonId: nextLesson.id),
+                                ),
+                              );
+                            }
+                          },
+                          color: AppColors.secondary,
+                          width: double.infinity,
+                        );
+                      } else {
+                        // Mostrar mensaje si no puede avanzar
+                        return GlassCard(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Completa esta lección para desbloquear la siguiente',
+                            style: GoogleFonts.robotoMono(
+                              color: AppColors.textMuted,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

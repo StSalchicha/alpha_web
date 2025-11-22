@@ -3,6 +3,7 @@ import '../models/lesson.dart';
 import '../models/quiz.dart';
 import '../services/api_service.dart';
 import '../utils/structures/lesson_linked_list.dart';
+import '../utils/structures/lesson_node.dart';
 import '../utils/structures/question_queue.dart';
 
 class ContentProvider with ChangeNotifier {
@@ -111,6 +112,22 @@ class ContentProvider with ChangeNotifier {
     _questionQueue.clear();
     _currentQuiz = null;
     notifyListeners();
+  }
+
+  // Obtener la siguiente lección después de la actual (usando LinkedList)
+  // Retorna el nodo siguiente si existe, null si no hay siguiente
+  LessonNode? getNextLesson(int currentLessonId) {
+    final currentNode = _lessonsList.findById(currentLessonId);
+    if (currentNode != null) {
+      return currentNode.next;
+    }
+    return null;
+  }
+
+  // Obtener la lección siguiente como objeto Lesson (helper para UI)
+  Lesson? getNextLessonData(int currentLessonId) {
+    final nextNode = getNextLesson(currentLessonId);
+    return nextNode?.data;
   }
 }
 

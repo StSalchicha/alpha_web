@@ -7,6 +7,7 @@ import '../services/api_service.dart';
 class AuthProvider with ChangeNotifier {
   final ApiService _apiService = ApiService();
   final Map<String, dynamic> _userData = {}; // Hash Table / Map para acceso O(1)
+  final Map<String, dynamic> _profileCache = {}; // Cache de perfil para acceso O(1)
   bool _isAuthenticated = false;
   bool _isLoading = false;
   String? _errorMessage;
@@ -16,6 +17,7 @@ class AuthProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   Map<String, dynamic> get userData => Map.unmodifiable(_userData);
+  Map<String, dynamic> get profileCache => Map.unmodifiable(_profileCache);
 
   User? get user {
     if (_userData['user'] != null) {
@@ -52,6 +54,11 @@ class AuthProvider with ChangeNotifier {
         );
         _isAuthenticated = true;
 
+        // Actualizar cache de perfil (Map para acceso O(1))
+        _profileCache['name'] = userName;
+        _profileCache['email'] = userEmail;
+        _profileCache['id'] = userId;
+
         // Cargar trofeos
         await loadTrophies();
       }
@@ -77,6 +84,11 @@ class AuthProvider with ChangeNotifier {
       _userData['email'] = user.email;
       _userData['name'] = user.name;
       _userData['id'] = user.id;
+
+      // Actualizar cache de perfil (Map para acceso O(1))
+      _profileCache['name'] = user.name;
+      _profileCache['email'] = user.email;
+      _profileCache['id'] = user.id;
 
       // Guardar en SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -127,6 +139,10 @@ class AuthProvider with ChangeNotifier {
       final userId = _userData['id'] as int;
       final trophies = await _apiService.getTrophies(userId);
       _userData['trophies'] = trophies;
+      
+      // Actualizar cache de perfil con conteo de trofeos (acceso O(1) al Map)
+      _profileCache['trophies_count'] = trophies.length;
+      
       notifyListeners();
     } catch (e) {
       // Error silencioso, no crítico
@@ -138,6 +154,7 @@ class AuthProvider with ChangeNotifier {
   Future<void> logout() async {
     _isAuthenticated = false;
     _userData.clear();
+    _profileCache.clear(); // Limpiar cache de perfil
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -148,6 +165,16 @@ class AuthProvider with ChangeNotifier {
   // Actualizar datos del usuario en el Map (sin hacer fetch a la API)
   void updateUserData(String key, dynamic value) {
     _userData[key] = value;
+    // Sincronizar con cache de perfil si es un campo relevante
+    if (key == 'name' || key == 'email' || key == 'id') {
+      _profileCache[key] = value;
+    }
+    notifyListeners();
+  }
+
+  // Actualizar cache de perfil directamente (acceso O(1) al Map)
+  void updateProfileCache(String key, dynamic value) {
+    _profileCache[key] = value;
     notifyListeners();
   }
 }

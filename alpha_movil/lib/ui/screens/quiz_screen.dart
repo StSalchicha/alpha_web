@@ -43,16 +43,19 @@ class _QuizScreenState extends State<QuizScreen> {
       _totalQuestions++;
     });
 
-    // Esperar un momento y luego pasar a la siguiente pregunta
+    // Esperar un momento y luego pasar a la siguiente pregunta usando dequeue()
     Future.delayed(const Duration(milliseconds: 1500), () {
       final contentProvider = Provider.of<ContentProvider>(context, listen: false);
       final questionQueue = contentProvider.questionQueue;
 
+      // Remover la pregunta actual de la cola usando dequeue() (FIFO)
+      questionQueue.dequeue();
+
       if (questionQueue.isEmpty) {
-        // Quiz terminado
+        // Quiz terminado - la cola está vacía
         _finishQuiz();
       } else {
-        // Siguiente pregunta
+        // Siguiente pregunta disponible en el frente de la cola
         setState(() {
           _selectedAnswerId = null;
         });
@@ -89,6 +92,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     final contentProvider = Provider.of<ContentProvider>(context);
     final questionQueue = contentProvider.questionQueue;
+    // Usar peek() para mostrar la pregunta actual sin removerla de la cola
     final currentQuestion = questionQueue.peek();
 
     if (contentProvider.isLoading) {
