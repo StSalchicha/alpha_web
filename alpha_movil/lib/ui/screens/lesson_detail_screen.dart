@@ -152,9 +152,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   NeonButton(
                     text: 'IR AL CUESTIONARIO',
                     onPressed: () {
-                      // Marcar lección como completada
-                      contentProvider.markLessonAsCompleted(widget.lessonId);
-                      
+                      // NO marcar como completada aquí - solo se marca al aprobar el quiz
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => QuizScreen(lessonId: widget.lessonId),

@@ -92,74 +92,107 @@ class _LessonsScreenState extends State<LessonsScreen> {
             itemCount: lessons.length,
             itemBuilder: (context, index) {
               final lesson = lessons[index];
+              
+              // Verificar si la lección está desbloqueada usando LinkedList
+              final isUnlocked = contentProvider.lessonsList.isLessonUnlocked(lesson.id);
+              final isLocked = !isUnlocked;
 
               return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: GlassCard(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => LessonDetailScreen(lessonId: lesson.id),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              height: 48,
-                              decoration: BoxDecoration(
-                                color: lesson.isCompleted
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Opacity(
+                  opacity: isLocked ? 0.5 : 1.0,
+                  child: GlassCard(
+                    onTap: isLocked
+                        ? () {
+                            // Mostrar SnackBar si intenta acceder a lección bloqueada
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Debes completar la lección anterior',
+                                  style: GoogleFonts.robotoMono(),
+                                ),
+                                backgroundColor: AppColors.danger,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        : () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => LessonDetailScreen(lessonId: lesson.id),
+                              ),
+                            );
+                          },
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: isLocked
+                                ? AppColors.textMuted.withOpacity(0.3)
+                                : lesson.isCompleted
                                     ? AppColors.success
                                     : AppColors.primary.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Icon(
-                                lesson.isCompleted
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            isLocked
+                                ? Icons.lock
+                                : lesson.isCompleted
                                     ? Icons.check_circle
                                     : Icons.book,
-                                color: lesson.isCompleted
+                            color: isLocked
+                                ? AppColors.textMuted
+                                : lesson.isCompleted
                                     ? AppColors.background
                                     : AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                lesson.title,
+                                style: GoogleFonts.robotoMono(
+                                  color: isLocked
+                                      ? AppColors.textMuted
+                                      : AppColors.text,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    lesson.title,
-                                    style: GoogleFonts.robotoMono(
-                                      color: AppColors.text,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    lesson.isCompleted
+                              const SizedBox(height: 4),
+                              Text(
+                                isLocked
+                                    ? 'Bloqueada'
+                                    : lesson.isCompleted
                                         ? 'Completada'
                                         : 'Pendiente',
-                                    style: GoogleFonts.robotoMono(
-                                      color: lesson.isCompleted
+                                style: GoogleFonts.robotoMono(
+                                  color: isLocked
+                                      ? AppColors.textMuted
+                                      : lesson.isCompleted
                                           ? AppColors.success
                                           : AppColors.textMuted,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.textMuted,
-                              size: 16,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
+                        Icon(
+                          isLocked ? Icons.lock_outline : Icons.arrow_forward_ios,
+                          color: AppColors.textMuted,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
             },
           );
         },

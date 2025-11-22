@@ -45,6 +45,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
     // Esperar un momento y luego pasar a la siguiente pregunta usando dequeue()
     Future.delayed(const Duration(milliseconds: 1500), () {
+      // Verificar que el widget aún esté montado antes de continuar
+      if (!mounted) return;
+      
       final contentProvider = Provider.of<ContentProvider>(context, listen: false);
       final questionQueue = contentProvider.questionQueue;
 
@@ -53,17 +56,23 @@ class _QuizScreenState extends State<QuizScreen> {
 
       if (questionQueue.isEmpty) {
         // Quiz terminado - la cola está vacía
-        _finishQuiz();
+        if (mounted) {
+          _finishQuiz();
+        }
       } else {
         // Siguiente pregunta disponible en el frente de la cola
-        setState(() {
-          _selectedAnswerId = null;
-        });
+        if (mounted) {
+          setState(() {
+            _selectedAnswerId = null;
+          });
+        }
       }
     });
   }
 
   Future<void> _finishQuiz() async {
+    if (!mounted) return;
+    
     setState(() {
       _showResult = true;
     });
@@ -82,6 +91,12 @@ class _QuizScreenState extends State<QuizScreen> {
           correct: _correctAnswers,
           total: _totalQuestions,
         );
+        
+        // Marcar lección como completada SOLO si el quiz fue aprobado (>= 70%)
+        final percentage = (_correctAnswers / _totalQuestions * 100).round();
+        if (percentage >= 70 && mounted) {
+          contentProvider.markLessonAsCompleted(widget.lessonId);
+        }
       } catch (e) {
         debugPrint('Error al guardar resultado: $e');
       }

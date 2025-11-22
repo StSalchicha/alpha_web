@@ -105,5 +105,40 @@ class LessonLinkedList {
     _current = null;
     _length = 0;
   }
+
+  // Obtiene el nodo anterior a uno dado (requiere recorrer desde el inicio)
+  LessonNode? getPreviousNode(int lessonId) {
+    if (_head == null) return null;
+    
+    // Si es el head, no tiene anterior
+    if (_head!.data.id == lessonId) return null;
+    
+    LessonNode? temp = _head;
+    while (temp != null && temp.next != null) {
+      if (temp.next!.data.id == lessonId) {
+        return temp;
+      }
+      temp = temp.next;
+    }
+    return null;
+  }
+
+  // Verifica si una lección está desbloqueada
+  // Una lección está desbloqueada si:
+  // 1. Es la primera (head) O
+  // 2. La lección anterior está completada
+  bool isLessonUnlocked(int lessonId) {
+    final currentNode = findById(lessonId);
+    if (currentNode == null) return false;
+    
+    // Si es el head, está desbloqueada
+    if (currentNode == _head) return true;
+    
+    // Si no es el head, verificar que la anterior esté completada
+    final previousNode = getPreviousNode(lessonId);
+    if (previousNode == null) return false;
+    
+    return previousNode.data.isCompleted;
+  }
 }
 
